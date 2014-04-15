@@ -70,6 +70,7 @@ class flickrOAuth(object):
     Given api_key and api_secret, it requests oauth token.
     returns dictionary of token
     in case of error, it will return error details in dictionary
+    in case offline, it will return None
     '''
     def request_token(self):
         # parameters        
@@ -94,17 +95,20 @@ class flickrOAuth(object):
         # Add the Signature to the request
         req['oauth_signature'] = signature
 
-        # Make the request to get the oauth_token and the oauth_token_secret
-        # I had to directly use the httplib2 here, instead of the oauth library.
-        h = httplib2.Http(".cache")
-        resp, content = h.request(req.to_url(), "GET")
+        try:
+            # Make the request to get the oauth_token and the oauth_token_secret
+            # I had to directly use the httplib2 here, instead of the oauth library.
+            h = httplib2.Http(".cache")
+            resp, content = h.request(req.to_url(), "GET")
 
-        # lets get contents into dictionary
-        self.req_token = dict(urlparse.parse_qsl(content))
-        
-        # Create the token object with returned oauth_token and oauth_token_secret
-        self.token = oauth2.Token(self.req_token['oauth_token'], self.req_token['oauth_token_secret'])
-
+            # lets get contents into dictionary
+            self.req_token = dict(urlparse.parse_qsl(content))
+            
+            # Create the token object with returned oauth_token and oauth_token_secret
+            self.token = oauth2.Token(self.req_token['oauth_token'], self.req_token['oauth_token_secret'])
+        except Exception, e:
+            print e;
+            self.token = None;
         return self.token;
 
     '''
@@ -150,14 +154,16 @@ class flickrOAuth(object):
         
         # assign the signature to the request
         req['oauth_signature'] = signature
+        try:
+            #make the request
+            h = httplib2.Http(".cache")
+            resp, content = h.request(req.to_url(), "GET")
 
-        #make the request
-        h = httplib2.Http(".cache")
-        resp, content = h.request(req.to_url(), "GET")
+            #parse the response
+            self.access_token = dict(urlparse.parse_qsl(content))
+        except Exception, e:
+            print e;
 
-        #parse the response
-        self.access_token = dict(urlparse.parse_qsl(content))
-        
         return self.isAuthenticated();
     
     '''
@@ -212,12 +218,15 @@ class flickrOAuth(object):
           print "Already authenticated";
           return True;
 
-        self.request_token();
+        if not self.request_token() :
+            print "Could not fetch request token";
+            return False;
+
         auth_url = self.getAuthorizeURL();
         webbrowser.open_new(auth_url);
         # Once you get the verified pin, input it
-        accepted = 'n'
-        while accepted.lower() == 'n':
+        accepted = 'y'
+        while accepted.lower() != 'y':
             accepted = raw_input('Have you authorized me? (y/n) ');
     
         oauth_verifier = raw_input('What is the PIN? ')
@@ -238,7 +247,7 @@ class flickrOAuth(object):
         
     def deSerializeToken(self):
         if not os.path.isfile(self.filePath):
-          print "local token not found";
+          # print "local token not found";
           return;
 
         try:
