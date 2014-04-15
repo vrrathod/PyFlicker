@@ -3,7 +3,6 @@
 
 #imports
 import flickrAuth;
-import webbrowser;
 
 ''' this is main functions
 '''
@@ -16,9 +15,8 @@ def main():
     print "Not authenticated :("
     return;
 
-  print "2. store token locally"
-  print "3. get list of albums"
-  print "4. get links for each photo in each albums"
+  print "2. get list of albums"
+  print "3. get links for each photo in each albums"
   
 #making sure that we only work on main
 if __name__ == '__main__' :
