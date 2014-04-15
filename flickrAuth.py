@@ -6,11 +6,6 @@ Implements several methods that helps simplifying the code in consumer
 
 """
 
-'''
-@description : 
-@author: vrrathod
-'''
-
 # imports
 import httplib2
 import json;

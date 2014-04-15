@@ -1,8 +1,22 @@
-''' flickr file
-'''
+#!/usr/bin/env python
+
+""" Main script to run
+
+This will eventually use the other scripts and download pictures
+
+"""
 
 #imports
 import flickrAuth;
+
+# description
+__author__ = "Viral Rathod"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Viral Rathod"]
+__license__ = "Apache2"
+__version__ = "0.0.1"
+__maintainer__ = "Viral Rathod"
+__status__ = "Development"
 
 ''' this is main functions
 '''

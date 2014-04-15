@@ -1,8 +1,18 @@
-'''
-Created on Sep 1, 2013
+#!/usr/bin/env python
 
-@author: personal
-'''
+""" Provides one stop shop for all the flickr specific constants
+
+"""
+
+# description
+__author__ = "Viral Rathod"
+__copyright__ = "Copyright 2014"
+__credits__ = ["Viral Rathod"]
+__license__ = "Apache2"
+__version__ = "0.0.1"
+__maintainer__ = "Viral Rathod"
+__status__ = "Development"
+
 #Flickr OAuth End-Points 
 request_token_url='http://www.flickr.com/services/oauth/request_token';
 access_token_url='http://www.flickr.com/services/oauth/access_token';
