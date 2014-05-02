@@ -8,7 +8,7 @@
 __author__ = "Viral Rathod"
 __copyright__ = "Copyright 2014"
 __credits__ = ["Viral Rathod"]
-__license__ = "Apache2"
+__license__ = "MIT"
 __version__ = "0.0.1"
 __maintainer__ = "Viral Rathod"
 __status__ = "Development"
