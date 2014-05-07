@@ -8,6 +8,7 @@ This will eventually use the other scripts and download pictures
 
 #imports
 import flickrAuth;
+import flickrPhotos;
 
 # description
 __author__ = "Viral Rathod"
@@ -30,7 +31,16 @@ def main():
     return;
 
   print "2. get list of albums"
-  print "3. get links for each photo in each albums"
+  photoSets = flickrPhotos.flickrPhotos(auth);
+
+  userID = None;
+  for photoSet in photoSets.enlistPhotosets(userID):
+    photosetName = photoSet['title']['_content'];
+    photoSetID = photoSet['id'];
+    print ("\nFound album : %s => %s")%(photoSetID, photosetName);
+    print "3. get links for each photo in each albums"
+    for photo in photoSets.getPhotosFromPhotoset(photoSetID):
+      print ("%r")%(photo);
   
 #making sure that we only work on main
 if __name__ == '__main__' :
